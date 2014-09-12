@@ -15,7 +15,7 @@ These scripts assume that you have exported a tile's VBO, which can be as simple
 
 ### example usage
 
-`python vbo_to_ply.py verts tile_faces.ply`
+`python vbo_to_ply.py tile_verts tile_faces.ply`
 
 ### filelist
 
