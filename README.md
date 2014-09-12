@@ -26,5 +26,5 @@ These scripts assume that you have exported a tile's VBO, which can be as simple
 - vbo_to_ply.py - Stanford Poly format converter - includes vertex color information
 - tile_verts.ply - sample output of above
 - tile_points.ply - example pointcloud for visualization
-- tile_faces.stl - example of OBJ file converted to STL
-- tile_faces.gcode - file sliced with Makerbot software – ready to print!
+- tile_faces_base.stl - example of OBJ file converted to STL, with an extruded ground plane
+- tile_faces_base.gcode - stl file sliced with Makerbot software – ready to print!
