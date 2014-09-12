@@ -21,3 +21,4 @@ A few ways to convert Tangram VBOs to 3D file formats.
 - tile_verts.ply - sample output of above
 - tile_points.ply - example pointcloud for visualization
 - tile_faces.stl - example of OBJ file converted to STL
+- tile_faces.gcode - file sliced with Makerbot software – ready to print!
