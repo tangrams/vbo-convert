@@ -10,7 +10,7 @@ maximum_range = 4096 # tile-space coordinate maximum
 open(OUTFILE, 'w').close() # clear existing OUTFILE
 
 # convert from tile-space coords to meters, depending on zoom
-def tile_to_meters(i):
+def tile_to_meters(zoom):
 	return 40075016.68557849 / pow(2, zoom)
 
 conversion_factor = tile_to_meters(zoom) / maximum_range
