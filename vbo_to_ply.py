@@ -1,29 +1,31 @@
-from __future__ import division
+from __future__ import division # required for float results when dividing ints
 import sys 
-FILE=sys.argv[1]
+INFILE=sys.argv[1]
 OUTFILE=sys.argv[2]
-stride=14
-indices=[0,1,2,6,7,8]
-zoom=16
-maximum_range = 4096
+stride=14 # number of total lines for each vertex in VBO
+indices=[0,1,2,6,7,8] # lines we want to keep
+zoom=16 # current zoom level
+maximum_range = 4096 # tile-space coordinate maximum
 
-open(OUTFILE, 'w').close()
+open(OUTFILE, 'w').close() # clear existing OUTFILE
 
+# convert from tile-space coords to meters, depending on zoom
 def tile_to_meters(i):
 	return 40075016.68557849 / pow(2, zoom)
 
 conversion_factor = tile_to_meters(zoom) / maximum_range
 
+# get number of lines in a file
 def file_len(fname):
 	with open(fname) as f:
 		for i, l in enumerate(f):
 			pass
 	return i + 1
 
-lines = file_len(FILE)
-keep = []
+lines = file_len(INFILE)
+keep = [] # array of kept lines
 
-loops = int(lines/stride)
+loops = int(lines/stride) # cast to int because of "division" module
 
 for i in range(0,loops):
 	offset= i*stride
@@ -37,16 +39,17 @@ index = 0
 vertex_count = 0
 newfile = open(OUTFILE, "w")
 
-with open(FILE, "r") as file:
+with open(INFILE, "r") as file:
 	for i, line in enumerate(file):
 		if i in keep:
-			# print i, index, ":", line
+			# collect all the relevant lines for this vertex
 			newline = newline + line.rstrip(",\n") + " "
 			if index == len(indices)-1:
+				# perform conversions
 				tokens = newline.split(" ")
 				tokens[0] = str(float(tokens[0]) * conversion_factor)
 				tokens[1] = str(float(tokens[1]) * conversion_factor)
-				tokens[3] = str(int(float(tokens[3]) * 255))
+				tokens[3] = str(int(float(tokens[3]) * 255)) # vertex color is a uchar
 				tokens[4] = str(int(float(tokens[4]) * 255))
 				tokens[5] = str(int(float(tokens[5]) * 255))
 				newline = " ".join(tokens)
@@ -56,7 +59,7 @@ with open(FILE, "r") as file:
 				vertex_count += 1
 			else:
 				index += 1
-		if (i % 1000 == 0):
+		if (i % 1000 == 0): # print progress
 			print(str(round(i / offset_indices[len(offset_indices)-1] * 100, 2))+"%")
 	face_count = int(vertex_count / 3)
 	for i in range(face_count):
@@ -72,6 +75,7 @@ def line_prepend(filename,line):
         f.seek(0,0)
         f.write(line.rstrip('\r\n') + '\n' + content)
 
+# generate PLY header
 header = '''ply
 format ascii 1.0
 element vertex '''+str(vertex_count)+'''
