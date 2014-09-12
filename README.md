@@ -1,7 +1,7 @@
 vbo-export
 ==========
 
-A few ways to convert Tangram VBOs to 3D file formats.
+A few ways to convert [Tangram](https://github.com/tangram-map/tangram) VBOs to 3D file formats.
 
 These scripts assume that you have exported a tile's VBO, which can be as simple as executing following javascript:
 
