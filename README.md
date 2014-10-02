@@ -3,6 +3,8 @@ vbo-export
 
 A few ways to convert [Tangram](https://github.com/tangram-map/tangram) VBOs to 3D file formats.
 
+![an exported 3D tile](https://github.com/tangram-map/vbo-export/blob/master/tile.png)
+
 These scripts assume that you have exported a tile's VBO.
 
 To export tile data, first identify the tile in question – Tangram provides a overlay of tile-sized divs for reference which are named according to their respective tile, and these can be identified through "inspect element" or similar methods. The name will be something like  "38602/49261/17".
