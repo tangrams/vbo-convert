@@ -2,9 +2,11 @@ from __future__ import division # required for float results when dividing ints
 import sys 
 INFILE=sys.argv[1]
 OUTFILE=sys.argv[2]
-stride=14 # number of total lines for each vertex in VBO
-indices=[0,1,2,6,7,8] # lines we want to keep
-zoom=16 # current zoom level
+
+# todo: get stride from vertex buffer layout property
+stride=7 # number of total lines for each vertex in VBO
+indices=[0,1,2,3,4,5,6] # lines we want to keep
+zoom=17 # current zoom level
 maximum_range = 4096 # tile-space coordinate maximum
 
 open(OUTFILE, 'w').close() # clear existing OUTFILE
@@ -47,11 +49,17 @@ with open(INFILE, "r") as file:
 			if index == len(indices)-1:
 				# perform conversions
 				tokens = newline.split(" ")
+				# print "tokens:"
+				# print tokens
 				tokens[0] = str(float(tokens[0]) * conversion_factor)
 				tokens[1] = str(float(tokens[1]) * conversion_factor)
-				tokens[3] = str(int(float(tokens[3]) * 255)) # vertex color is a uchar
-				tokens[4] = str(int(float(tokens[4]) * 255))
-				tokens[5] = str(int(float(tokens[5]) * 255))
+				# print "tokens:"
+				# print tokens
+				# print float(tokens[3])
+				# color = int(tokens[3])
+				# tokens[3] = str(int(float(tokens[3]) * 255)) # vertex color is a uchar
+				# tokens[4] = str(int(float(tokens[4]) * 255))
+				# tokens[5] = str(int(float(tokens[5]) * 255))
 				newline = " ".join(tokens)
 				newfile.write(newline + "\n")
 				newline = ""
@@ -60,7 +68,8 @@ with open(INFILE, "r") as file:
 			else:
 				index += 1
 		if (i % 1000 == 0): # print progress
-			print(str(round(i / offset_indices[len(offset_indices)-1] * 100, 2))+"%")
+			sys.stdout.flush()
+			sys.stdout.write("\r"+(str(round(i / offset_indices[len(offset_indices)-1] * 100, 2))+"%"))
 	face_count = int(vertex_count / 3)
 	for i in range(face_count):
 		j = i*3

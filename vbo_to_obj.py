@@ -2,7 +2,9 @@ from __future__ import division
 import sys 
 FILE=sys.argv[1]
 OUTFILE=sys.argv[2]
-stride=14
+
+# todo: get stride from vertex buffer layout property
+stride=6
 indices=[0,1,2]
 zoom=16
 maximum_range = 4096
@@ -21,7 +23,6 @@ def file_len(fname):
 	return i + 1
 
 lines = file_len(FILE)
-keep = []
 
 loops = int(lines/stride)
 
