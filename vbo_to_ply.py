@@ -2,9 +2,10 @@ from __future__ import division # required for float results when dividing ints
 import sys 
 INFILE=sys.argv[1]
 OUTFILE=sys.argv[2]
+# zoom=int(sys.argv[3])
 
 # todo: get stride from vertex buffer layout property
-stride=7 # number of total lines for each vertex in VBO
+stride=9 # number of total lines for each vertex in VBO
 indices=[0,1,2,3,4,5,6] # lines we want to keep
 zoom=17 # current zoom level
 maximum_range = 4096 # tile-space coordinate maximum
@@ -91,11 +92,21 @@ element vertex '''+str(vertex_count)+'''
 property float x
 property float y
 property float z
-property uchar red
-property uchar green
-property uchar blue
 element face '''+str(face_count)+'''
 property list uchar int vertex_indices
 end_header
 '''
+# header = '''ply
+# format ascii 1.0
+# element vertex '''+str(vertex_count)+'''
+# property float x
+# property float y
+# property float z
+# property uchar red
+# property uchar green
+# property uchar blue
+# element face '''+str(face_count)+'''
+# property list uchar int vertex_indices
+# end_header
+# '''
 line_prepend(OUTFILE, header)
