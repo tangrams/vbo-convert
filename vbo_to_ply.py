@@ -6,8 +6,9 @@ OUTFILE=sys.argv[2]
 
 # todo: get stride from vertex buffer layout property
 stride=9 # number of total lines for each vertex in VBO
-indices=[0,1,2,3,4,5,6] # lines we want to keep
-zoom=17 # current zoom level
+# indices=[0,1,2,3,4,5,6] # lines we want to keep
+indices=[0,1,2] # lines we want to keep
+zoom=17 # current zoom level (so far this doesn't matter)
 maximum_range = 4096 # tile-space coordinate maximum
 
 open(OUTFILE, 'w').close() # clear existing OUTFILE
