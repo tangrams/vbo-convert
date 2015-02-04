@@ -1,14 +1,17 @@
+#new
+
 from __future__ import division # required for float results when dividing ints
 import sys 
+from itertools import islice
+
 INFILE=sys.argv[1]
 OUTFILE=sys.argv[2]
 # zoom=int(sys.argv[3])
 
 # todo: get stride from vertex buffer layout property
 stride=9 # number of total lines for each vertex in VBO
-# indices=[0,1,2,3,4,5,6] # lines we want to keep
 indices=[0,1,2] # lines we want to keep
-zoom=17 # current zoom level (so far this doesn't matter)
+zoom=16 # current zoom level - sets x & y scale relative to z values
 maximum_range = 4096 # tile-space coordinate maximum
 
 open(OUTFILE, 'w').close() # clear existing OUTFILE
@@ -18,67 +21,63 @@ def tile_to_meters(zoom):
 	return 40075016.68557849 / pow(2, zoom)
 
 conversion_factor = tile_to_meters(zoom) / maximum_range
+lines = []
 
-# get number of lines in a file
-def file_len(fname):
-	with open(fname) as f:
-		for i, l in enumerate(f):
-			pass
-	return i + 1
+# get lines from input file
+with open(INFILE) as f:
+	oldfile = f.readlines()
+f.close()
 
-lines = file_len(INFILE)
-keep = [] # array of kept lines
+# pick only the lines we want using islice on an iterator
+o = iter(oldfile)
+while True:
+	line = list(islice(o, 3))
+	discard = list(islice(o, 6))
+	lines.append(line)
+	if not line:
+		break
 
-loops = int(lines/stride) # cast to int because of "division" module
-
-for i in range(0,loops):
-	offset= i*stride
-	offset_indices = [j + offset for j in indices]
-	# print offset_indices
-	for k in offset_indices:
-		keep.append(k)
-# print keep
-newline = ""
-index = 0
 vertex_count = 0
+newlines = []
+
+# add vertex definitions
+for i, line in enumerate(lines):
+
+	index = 0
+
+	# strip line breaks and whitespace
+	newline = map(str.strip, line)
+
+	if len(newline) == 0: # skip the occasional empty line
+		break
+
+	# perform conversions
+	newline[0] = str(float(newline[0]) * conversion_factor)
+	newline[1] = str(float(newline[1]) * conversion_factor)
+
+	newline = " ".join(newline) + "\n"
+
+	newlines.append(newline)
+	vertex_count += 1
+
+	if (i % 1000 == 0): # print progress
+		sys.stdout.flush()
+		sys.stdout.write("\r"+(str(round(i / len(lines) * 100, 2))+"%"))
+
+sys.stdout.flush()
+sys.stdout.write("\r100%")
+sys.stdout.flush()
+# add simple face definitions - every three vertices make a face
+face_count = int(vertex_count / 3)
+for i in range(face_count):
+	j = i*3
+	newline = "3 "+str(j)+" "+str(j+1)+" "+str(j+2)+"\n"
+	newlines.append(newline)
+
 newfile = open(OUTFILE, "w")
-
-with open(INFILE, "r") as file:
-	for i, line in enumerate(file):
-		if i in keep:
-			# collect all the relevant lines for this vertex
-			newline = newline + line.rstrip(",\n") + " "
-			if index == len(indices)-1:
-				# perform conversions
-				tokens = newline.split(" ")
-				# print "tokens:"
-				# print tokens
-				tokens[0] = str(float(tokens[0]) * conversion_factor)
-				tokens[1] = str(float(tokens[1]) * conversion_factor)
-				# print "tokens:"
-				# print tokens
-				# print float(tokens[3])
-				# color = int(tokens[3])
-				# tokens[3] = str(int(float(tokens[3]) * 255)) # vertex color is a uchar
-				# tokens[4] = str(int(float(tokens[4]) * 255))
-				# tokens[5] = str(int(float(tokens[5]) * 255))
-				newline = " ".join(tokens)
-				newfile.write(newline + "\n")
-				newline = ""
-				index = 0
-				vertex_count += 1
-			else:
-				index += 1
-		if (i % 1000 == 0): # print progress
-			sys.stdout.flush()
-			sys.stdout.write("\r"+(str(round(i / offset_indices[len(offset_indices)-1] * 100, 2))+"%"))
-	face_count = int(vertex_count / 3)
-	for i in range(face_count):
-		j = i*3
-		newline = "3 "+str(j)+" "+str(j+1)+" "+str(j+2)+"\n"
-		newfile.write(newline)
+for line in newlines:
+  newfile.write("%s" % line)
 newfile.close()
-
 
 def line_prepend(filename,line):
     with open(filename,'r+') as f:
