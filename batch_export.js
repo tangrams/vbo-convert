@@ -56,7 +56,7 @@ for (t in mytiles) {
   offset.y *= 4096;
   console.log("coords", coords);
   console.log("offset", offset);
-  verts = Array.prototype.slice.call(new Float32Array(scene.tiles[coords].gl_geometry.polygons.vertex_data))
+  verts = Array.prototype.slice.call(new Float32Array(scene.tiles[coords].meshes.polygons.vertex_data));
   length = verts.length / 9;
   console.log("length:", length)
 
