@@ -7,58 +7,426 @@
 // take in a selection of tiles from landgrab and pass files/data directly to vbo-export
 //
 
-mytiles = [{'x': 9647.0, 'y': 12323.0, 'z': 15},
- {'x': 9646.0, 'y': 12323.0, 'z': 15},
- {'x': 9645.0, 'y': 12323.0, 'z': 15},
- {'x': 9647.0, 'y': 12322.0, 'z': 15},
- {'x': 9646.0, 'y': 12322.0, 'z': 15}];
+window.exportVBO = function (callback) {
+
+console.log("Beginning VBO export");
+
+var mytiles = [{'x': 19300, 'y': 24626.0, 'z': 16},
+ {'x': 19297, 'y': 24636.0, 'z': 16},
+ {'x': 19303.0, 'y': 24625, 'z': 16},
+ {'x': 19308.0, 'y': 24608, 'z': 16},
+ {'x': 19298.0, 'y': 24631, 'z': 16},
+ {'x': 19300, 'y': 24639.0, 'z': 16},
+ {'x': 19308.0, 'y': 24609.0, 'z': 16},
+ {'x': 19296.0, 'y': 24627.0, 'z': 16},
+ {'x': 19305, 'y': 24626.0, 'z': 16},
+ {'x': 19293.0, 'y': 24641.0, 'z': 16},
+ {'x': 19306, 'y': 24617.0, 'z': 16},
+ {'x': 19308.0, 'y': 24617.0, 'z': 16},
+ {'x': 19312.0, 'y': 24603.0, 'z': 16},
+ {'x': 19300.0, 'y': 24628, 'z': 16},
+ {'x': 19300.0, 'y': 24621.0, 'z': 16},
+ {'x': 19302.0, 'y': 24618, 'z': 16},
+ {'x': 19308.0, 'y': 24611.0, 'z': 16},
+ {'x': 19309.0, 'y': 24603.0, 'z': 16},
+ {'x': 19301.0, 'y': 24626, 'z': 16},
+ {'x': 19310.0, 'y': 24600.0, 'z': 16},
+ {'x': 19311.0, 'y': 24605.0, 'z': 16},
+ {'x': 19307.0, 'y': 24606.0, 'z': 16},
+ {'x': 19301.0, 'y': 24635.0, 'z': 16},
+ {'x': 19304.0, 'y': 24629.0, 'z': 16},
+ {'x': 19306.0, 'y': 24620, 'z': 16},
+ {'x': 19297.0, 'y': 24634, 'z': 16},
+ {'x': 19294.0, 'y': 24635.0, 'z': 16},
+ {'x': 19299, 'y': 24639.0, 'z': 16},
+ {'x': 19306.0, 'y': 24609.0, 'z': 16},
+ {'x': 19306.0, 'y': 24626.0, 'z': 16},
+ {'x': 19308.0, 'y': 24603.0, 'z': 16},
+ {'x': 19307.0, 'y': 24612, 'z': 16},
+ {'x': 19304.0, 'y': 24616, 'z': 16},
+ {'x': 19309.0, 'y': 24617.0, 'z': 16},
+ {'x': 19298.0, 'y': 24637, 'z': 16},
+ {'x': 19309.0, 'y': 24616, 'z': 16},
+ {'x': 19300.0, 'y': 24633, 'z': 16},
+ {'x': 19296.0, 'y': 24637, 'z': 16},
+ {'x': 19308.0, 'y': 24620.0, 'z': 16},
+ {'x': 19299, 'y': 24632.0, 'z': 16},
+ {'x': 19309.0, 'y': 24609.0, 'z': 16},
+ {'x': 19304.0, 'y': 24615, 'z': 16},
+ {'x': 19300.0, 'y': 24624, 'z': 16},
+ {'x': 19309.0, 'y': 24606, 'z': 16},
+ {'x': 19301.0, 'y': 24639.0, 'z': 16},
+ {'x': 19304.0, 'y': 24614.0, 'z': 16},
+ {'x': 19299, 'y': 24628.0, 'z': 16},
+ {'x': 19296, 'y': 24632.0, 'z': 16},
+ {'x': 19307.0, 'y': 24622.0, 'z': 16},
+ {'x': 19300.0, 'y': 24640.0, 'z': 16},
+ {'x': 19310.0, 'y': 24607.0, 'z': 16},
+ {'x': 19312.0, 'y': 24602.0, 'z': 16},
+ {'x': 19303.0, 'y': 24621, 'z': 16},
+ {'x': 19309.0, 'y': 24614, 'z': 16},
+ {'x': 19302.0, 'y': 24628, 'z': 16},
+ {'x': 19294.0, 'y': 24633.0, 'z': 16},
+ {'x': 19298.0, 'y': 24634, 'z': 16},
+ {'x': 19307.0, 'y': 24604.0, 'z': 16},
+ {'x': 19303.0, 'y': 24630.0, 'z': 16},
+ {'x': 19303.0, 'y': 24628, 'z': 16},
+ {'x': 19300.0, 'y': 24627, 'z': 16},
+ {'x': 19305.0, 'y': 24619, 'z': 16},
+ {'x': 19295, 'y': 24641.0, 'z': 16},
+ {'x': 19305.0, 'y': 24611.0, 'z': 16},
+ {'x': 19298.0, 'y': 24633, 'z': 16},
+ {'x': 19302, 'y': 24622.0, 'z': 16},
+ {'x': 19295, 'y': 24640.0, 'z': 16},
+ {'x': 19301.0, 'y': 24628, 'z': 16},
+ {'x': 19298, 'y': 24630.0, 'z': 16},
+ {'x': 19307.0, 'y': 24610, 'z': 16},
+ {'x': 19309.0, 'y': 24608.0, 'z': 16},
+ {'x': 19295.0, 'y': 24632.0, 'z': 16},
+ {'x': 19309.0, 'y': 24601.0, 'z': 16},
+ {'x': 19301.0, 'y': 24636.0, 'z': 16},
+ {'x': 19306.0, 'y': 24606.0, 'z': 16},
+ {'x': 19306.0, 'y': 24618, 'z': 16},
+ {'x': 19300.0, 'y': 24634, 'z': 16},
+ {'x': 19307.0, 'y': 24618, 'z': 16},
+ {'x': 19303, 'y': 24617.0, 'z': 16},
+ {'x': 19303.0, 'y': 24615.0, 'z': 16},
+ {'x': 19301.0, 'y': 24618.0, 'z': 16},
+ {'x': 19304.0, 'y': 24624, 'z': 16},
+ {'x': 19298.0, 'y': 24623.0, 'z': 16},
+ {'x': 19298.0, 'y': 24640.0, 'z': 16},
+ {'x': 19302, 'y': 24629.0, 'z': 16},
+ {'x': 19293.0, 'y': 24643.0, 'z': 16},
+ {'x': 19303.0, 'y': 24624, 'z': 16},
+ {'x': 19302.0, 'y': 24632.0, 'z': 16},
+ {'x': 19296, 'y': 24635.0, 'z': 16},
+ {'x': 19301.0, 'y': 24623, 'z': 16},
+ {'x': 19304, 'y': 24617.0, 'z': 16},
+ {'x': 19310.0, 'y': 24604.0, 'z': 16},
+ {'x': 19309.0, 'y': 24612, 'z': 16},
+ {'x': 19299, 'y': 24629.0, 'z': 16},
+ {'x': 19308.0, 'y': 24607, 'z': 16},
+ {'x': 19301.0, 'y': 24620, 'z': 16},
+ {'x': 19296.0, 'y': 24633, 'z': 16},
+ {'x': 19302.0, 'y': 24621, 'z': 16},
+ {'x': 19302.0, 'y': 24631.0, 'z': 16},
+ {'x': 19308.0, 'y': 24615.0, 'z': 16},
+ {'x': 19306.0, 'y': 24624.0, 'z': 16},
+ {'x': 19305, 'y': 24620.0, 'z': 16},
+ {'x': 19305, 'y': 24615.0, 'z': 16},
+ {'x': 19297.0, 'y': 24641.0, 'z': 16},
+ {'x': 19300.0, 'y': 24625, 'z': 16},
+ {'x': 19307, 'y': 24609.0, 'z': 16},
+ {'x': 19307.0, 'y': 24624.0, 'z': 16},
+ {'x': 19307.0, 'y': 24614, 'z': 16},
+ {'x': 19308.0, 'y': 24618, 'z': 16},
+ {'x': 19295.0, 'y': 24631.0, 'z': 16},
+ {'x': 19298, 'y': 24639.0, 'z': 16},
+ {'x': 19301.0, 'y': 24627, 'z': 16},
+ {'x': 19299, 'y': 24626.0, 'z': 16},
+ {'x': 19305.0, 'y': 24614, 'z': 16},
+ {'x': 19297.0, 'y': 24625.0, 'z': 16},
+ {'x': 19304.0, 'y': 24621, 'z': 16},
+ {'x': 19307.0, 'y': 24625.0, 'z': 16},
+ {'x': 19293.0, 'y': 24638.0, 'z': 16},
+ {'x': 19300.0, 'y': 24623, 'z': 16},
+ {'x': 19305, 'y': 24617.0, 'z': 16},
+ {'x': 19303.0, 'y': 24618, 'z': 16},
+ {'x': 19304.0, 'y': 24627, 'z': 16},
+ {'x': 19310.0, 'y': 24602, 'z': 16},
+ {'x': 19306.0, 'y': 24623.0, 'z': 16},
+ {'x': 19301.0, 'y': 24624, 'z': 16},
+ {'x': 19296.0, 'y': 24628.0, 'z': 16},
+ {'x': 19296.0, 'y': 24642.0, 'z': 16},
+ {'x': 19305.0, 'y': 24616, 'z': 16},
+ {'x': 19299, 'y': 24631.0, 'z': 16},
+ {'x': 19298.0, 'y': 24625.0, 'z': 16},
+ {'x': 19312.0, 'y': 24604.0, 'z': 16},
+ {'x': 19297, 'y': 24630.0, 'z': 16},
+ {'x': 19308.0, 'y': 24605, 'z': 16},
+ {'x': 19299, 'y': 24640.0, 'z': 16},
+ {'x': 19295.0, 'y': 24642.0, 'z': 16},
+ {'x': 19307.0, 'y': 24619, 'z': 16},
+ {'x': 19298, 'y': 24635.0, 'z': 16},
+ {'x': 19298.0, 'y': 24624.0, 'z': 16},
+ {'x': 19301.0, 'y': 24632.0, 'z': 16},
+ {'x': 19298, 'y': 24626.0, 'z': 16},
+ {'x': 19293.0, 'y': 24642.0, 'z': 16},
+ {'x': 19303, 'y': 24620.0, 'z': 16},
+ {'x': 19300, 'y': 24635.0, 'z': 16},
+ {'x': 19310.0, 'y': 24601.0, 'z': 16},
+ {'x': 19303.0, 'y': 24629.0, 'z': 16},
+ {'x': 19312.0, 'y': 24601.0, 'z': 16},
+ {'x': 19304.0, 'y': 24612.0, 'z': 16},
+ {'x': 19309.0, 'y': 24613, 'z': 16},
+ {'x': 19304.0, 'y': 24626, 'z': 16},
+ {'x': 19294.0, 'y': 24634.0, 'z': 16},
+ {'x': 19305.0, 'y': 24613, 'z': 16},
+ {'x': 19301.0, 'y': 24629, 'z': 16},
+ {'x': 19305.0, 'y': 24627.0, 'z': 16},
+ {'x': 19311, 'y': 24603.0, 'z': 16},
+ {'x': 19299, 'y': 24630.0, 'z': 16},
+ {'x': 19299, 'y': 24637.0, 'z': 16},
+ {'x': 19302.0, 'y': 24624, 'z': 16},
+ {'x': 19301.0, 'y': 24637.0, 'z': 16},
+ {'x': 19300.0, 'y': 24637, 'z': 16},
+ {'x': 19298.0, 'y': 24632, 'z': 16},
+ {'x': 19306.0, 'y': 24625.0, 'z': 16},
+ {'x': 19309.0, 'y': 24618.0, 'z': 16},
+ {'x': 19298, 'y': 24629.0, 'z': 16},
+ {'x': 19308.0, 'y': 24602.0, 'z': 16},
+ {'x': 19308.0, 'y': 24619, 'z': 16},
+ {'x': 19299.0, 'y': 24621.0, 'z': 16},
+ {'x': 19309.0, 'y': 24610, 'z': 16},
+ {'x': 19296.0, 'y': 24634, 'z': 16},
+ {'x': 19299, 'y': 24634.0, 'z': 16},
+ {'x': 19303.0, 'y': 24627, 'z': 16},
+ {'x': 19306.0, 'y': 24615, 'z': 16},
+ {'x': 19299, 'y': 24624.0, 'z': 16},
+ {'x': 19300.0, 'y': 24619.0, 'z': 16},
+ {'x': 19302.0, 'y': 24623, 'z': 16},
+ {'x': 19306.0, 'y': 24613, 'z': 16},
+ {'x': 19295.0, 'y': 24637, 'z': 16},
+ {'x': 19307, 'y': 24617.0, 'z': 16},
+ {'x': 19297.0, 'y': 24637, 'z': 16},
+ {'x': 19301.0, 'y': 24619.0, 'z': 16},
+ {'x': 19309, 'y': 24605.0, 'z': 16},
+ {'x': 19300, 'y': 24622.0, 'z': 16},
+ {'x': 19303, 'y': 24622.0, 'z': 16},
+ {'x': 19311.0, 'y': 24602, 'z': 16},
+ {'x': 19309.0, 'y': 24611, 'z': 16},
+ {'x': 19306.0, 'y': 24610.0, 'z': 16},
+ {'x': 19299, 'y': 24627.0, 'z': 16},
+ {'x': 19304.0, 'y': 24625, 'z': 16},
+ {'x': 19305.0, 'y': 24610.0, 'z': 16},
+ {'x': 19296, 'y': 24630.0, 'z': 16},
+ {'x': 19305.0, 'y': 24628.0, 'z': 16},
+ {'x': 19297, 'y': 24631.0, 'z': 16},
+ {'x': 19301.0, 'y': 24634.0, 'z': 16},
+ {'x': 19300.0, 'y': 24638, 'z': 16},
+ {'x': 19301.0, 'y': 24621, 'z': 16},
+ {'x': 19308.0, 'y': 24613.0, 'z': 16},
+ {'x': 19307, 'y': 24620.0, 'z': 16},
+ {'x': 19306.0, 'y': 24612, 'z': 16},
+ {'x': 19300.0, 'y': 24630, 'z': 16},
+ {'x': 19293.0, 'y': 24639.0, 'z': 16},
+ {'x': 19302.0, 'y': 24619, 'z': 16},
+ {'x': 19301.0, 'y': 24630, 'z': 16},
+ {'x': 19305.0, 'y': 24612.0, 'z': 16},
+ {'x': 19311.0, 'y': 24601.0, 'z': 16},
+ {'x': 19305, 'y': 24622.0, 'z': 16},
+ {'x': 19301.0, 'y': 24622, 'z': 16},
+ {'x': 19308.0, 'y': 24612.0, 'z': 16},
+ {'x': 19297.0, 'y': 24626.0, 'z': 16},
+ {'x': 19294.0, 'y': 24636.0, 'z': 16},
+ {'x': 19309.0, 'y': 24604, 'z': 16},
+ {'x': 19307.0, 'y': 24621, 'z': 16},
+ {'x': 19306.0, 'y': 24608.0, 'z': 16},
+ {'x': 19295.0, 'y': 24638, 'z': 16},
+ {'x': 19294.0, 'y': 24642.0, 'z': 16},
+ {'x': 19299.0, 'y': 24633, 'z': 16},
+ {'x': 19293.0, 'y': 24640.0, 'z': 16},
+ {'x': 19310.0, 'y': 24606.0, 'z': 16},
+ {'x': 19295.0, 'y': 24630.0, 'z': 16},
+ {'x': 19299.0, 'y': 24641.0, 'z': 16},
+ {'x': 19296.0, 'y': 24641.0, 'z': 16},
+ {'x': 19308.0, 'y': 24610.0, 'z': 16},
+ {'x': 19301.0, 'y': 24640.0, 'z': 16},
+ {'x': 19309.0, 'y': 24619.0, 'z': 16},
+ {'x': 19309.0, 'y': 24602.0, 'z': 16},
+ {'x': 19303.0, 'y': 24631.0, 'z': 16},
+ {'x': 19311.0, 'y': 24604.0, 'z': 16},
+ {'x': 19301.0, 'y': 24617.0, 'z': 16},
+ {'x': 19294.0, 'y': 24638.0, 'z': 16},
+ {'x': 19296, 'y': 24636.0, 'z': 16},
+ {'x': 19309.0, 'y': 24620.0, 'z': 16},
+ {'x': 19301.0, 'y': 24638.0, 'z': 16},
+ {'x': 19301.0, 'y': 24625, 'z': 16},
+ {'x': 19309.0, 'y': 24600.0, 'z': 16},
+ {'x': 19306.0, 'y': 24619, 'z': 16},
+ {'x': 19299.0, 'y': 24623.0, 'z': 16},
+ {'x': 19297.0, 'y': 24633, 'z': 16},
+ {'x': 19301.0, 'y': 24633.0, 'z': 16},
+ {'x': 19299.0, 'y': 24638, 'z': 16},
+ {'x': 19307.0, 'y': 24613, 'z': 16},
+ {'x': 19298.0, 'y': 24627, 'z': 16},
+ {'x': 19294, 'y': 24641.0, 'z': 16},
+ {'x': 19310.0, 'y': 24605.0, 'z': 16},
+ {'x': 19307.0, 'y': 24605.0, 'z': 16},
+ {'x': 19298, 'y': 24636.0, 'z': 16},
+ {'x': 19296.0, 'y': 24629.0, 'z': 16},
+ {'x': 19308.0, 'y': 24604.0, 'z': 16},
+ {'x': 19308.0, 'y': 24621.0, 'z': 16},
+ {'x': 19307.0, 'y': 24623.0, 'z': 16},
+ {'x': 19302.0, 'y': 24625, 'z': 16},
+ {'x': 19299, 'y': 24636.0, 'z': 16},
+ {'x': 19297, 'y': 24640.0, 'z': 16},
+ {'x': 19310, 'y': 24603.0, 'z': 16},
+ {'x': 19297, 'y': 24635.0, 'z': 16},
+ {'x': 19294, 'y': 24639.0, 'z': 16},
+ {'x': 19299, 'y': 24635.0, 'z': 16},
+ {'x': 19295, 'y': 24636.0, 'z': 16},
+ {'x': 19306.0, 'y': 24622, 'z': 16},
+ {'x': 19294, 'y': 24640.0, 'z': 16},
+ {'x': 19299.0, 'y': 24622.0, 'z': 16},
+ {'x': 19296.0, 'y': 24626.0, 'z': 16},
+ {'x': 19303.0, 'y': 24614.0, 'z': 16},
+ {'x': 19306.0, 'y': 24614, 'z': 16},
+ {'x': 19307.0, 'y': 24608, 'z': 16},
+ {'x': 19295.0, 'y': 24634, 'z': 16},
+ {'x': 19297, 'y': 24632.0, 'z': 16},
+ {'x': 19300.0, 'y': 24620.0, 'z': 16},
+ {'x': 19305, 'y': 24623.0, 'z': 16},
+ {'x': 19307.0, 'y': 24615, 'z': 16},
+ {'x': 19297, 'y': 24639.0, 'z': 16},
+ {'x': 19297, 'y': 24629.0, 'z': 16},
+ {'x': 19307.0, 'y': 24616, 'z': 16},
+ {'x': 19307.0, 'y': 24607, 'z': 16},
+ {'x': 19297.0, 'y': 24638, 'z': 16},
+ {'x': 19295.0, 'y': 24633.0, 'z': 16},
+ {'x': 19305, 'y': 24625.0, 'z': 16},
+ {'x': 19306.0, 'y': 24621, 'z': 16},
+ {'x': 19300.0, 'y': 24636, 'z': 16},
+ {'x': 19306.0, 'y': 24607.0, 'z': 16},
+ {'x': 19305, 'y': 24624.0, 'z': 16},
+ {'x': 19294.0, 'y': 24632.0, 'z': 16},
+ {'x': 19304.0, 'y': 24619, 'z': 16},
+ {'x': 19302, 'y': 24626.0, 'z': 16},
+ {'x': 19303, 'y': 24626.0, 'z': 16},
+ {'x': 19304.0, 'y': 24613.0, 'z': 16},
+ {'x': 19295.0, 'y': 24628.0, 'z': 16},
+ {'x': 19309.0, 'y': 24615, 'z': 16},
+ {'x': 19302.0, 'y': 24627, 'z': 16},
+ {'x': 19297.0, 'y': 24628, 'z': 16},
+ {'x': 19304.0, 'y': 24622, 'z': 16},
+ {'x': 19295, 'y': 24639.0, 'z': 16},
+ {'x': 19300.0, 'y': 24631, 'z': 16},
+ {'x': 19309.0, 'y': 24607.0, 'z': 16},
+ {'x': 19313.0, 'y': 24602.0, 'z': 16},
+ {'x': 19304.0, 'y': 24618, 'z': 16},
+ {'x': 19299, 'y': 24625.0, 'z': 16},
+ {'x': 19296, 'y': 24640.0, 'z': 16},
+ {'x': 19308.0, 'y': 24614.0, 'z': 16},
+ {'x': 19303.0, 'y': 24623, 'z': 16},
+ {'x': 19294.0, 'y': 24643.0, 'z': 16},
+ {'x': 19297.0, 'y': 24627.0, 'z': 16},
+ {'x': 19296, 'y': 24639.0, 'z': 16},
+ {'x': 19306.0, 'y': 24616, 'z': 16},
+ {'x': 19307, 'y': 24611.0, 'z': 16},
+ {'x': 19302, 'y': 24620.0, 'z': 16},
+ {'x': 19304.0, 'y': 24623, 'z': 16},
+ {'x': 19304.0, 'y': 24628.0, 'z': 16},
+ {'x': 19301.0, 'y': 24631, 'z': 16},
+ {'x': 19295.0, 'y': 24643.0, 'z': 16},
+ {'x': 19294.0, 'y': 24637.0, 'z': 16},
+ {'x': 19300.0, 'y': 24632, 'z': 16},
+ {'x': 19300, 'y': 24629.0, 'z': 16},
+ {'x': 19295, 'y': 24635.0, 'z': 16},
+ {'x': 19308.0, 'y': 24616.0, 'z': 16},
+ {'x': 19298.0, 'y': 24628, 'z': 16},
+ {'x': 19302.0, 'y': 24617.0, 'z': 16},
+ {'x': 19296, 'y': 24631.0, 'z': 16},
+ {'x': 19303.0, 'y': 24619, 'z': 16},
+ {'x': 19304.0, 'y': 24620, 'z': 16},
+ {'x': 19294.0, 'y': 24631.0, 'z': 16},
+ {'x': 19308.0, 'y': 24606, 'z': 16},
+ {'x': 19306, 'y': 24611.0, 'z': 16},
+ {'x': 19298.0, 'y': 24638, 'z': 16},
+ {'x': 19298.0, 'y': 24641.0, 'z': 16},
+ {'x': 19302, 'y': 24630.0, 'z': 16},
+ {'x': 19296.0, 'y': 24638, 'z': 16},
+ {'x': 19302.0, 'y': 24616.0, 'z': 16},
+ {'x': 19305.0, 'y': 24618, 'z': 16},
+ {'x': 19295.0, 'y': 24629.0, 'z': 16},
+ {'x': 19305.0, 'y': 24621, 'z': 16},
+ {'x': 19303.0, 'y': 24616, 'z': 16},
+ {'x': 19308.0, 'y': 24622.0, 'z': 16}];
 
 // find tile range
 min = {x: Infinity, y: Infinity};
 max = {x:-Infinity, y: -Infinity};
 for (t in mytiles) {
   mt = mytiles[t];
-  console.log(mt);
-  console.log(min);
-  console.log(max);
+  // console.log(mt);
+  // console.log(min);
+  // console.log(max);
 
   min.x = Math.min(min.x, mt.x);
   min.y = Math.min(min.y, mt.y);
   max.x = Math.max(max.x, mt.x);
   max.y = Math.max(max.y, mt.y);
 }
-console.log("min:", min);
-console.log("max:", max);
-for (t in mytiles) { scene._loadTile(mytiles[t]); }
+// console.log("min:", min);
+// console.log("max:", max);
 
-// prepare a list of links
-elements = [];
+// prepare a list of vbos
+vbos = [];
 
-// make a downloadable blob from a string and create a link to the blob
-makelink = function(text) {
-  window.URL = window.webkitURL || window.URL;
-  var data = new Blob([text], {type: 'text/plain'});
-  var u = window.URL.createObjectURL(data)
-
-  elements.push(u);
-  console.log(u);
+function waitForVerts(callback, coords, offset) {
+  var coords = coords;
+  // console.log("coords:", coords);
+  setTimeout(function () {
+    // todo: determine which of these are necessary
+    // also todo: trigger this based on a _loadTile callback
+    if (typeof scene.tiles[coords] != "undefined") {
+      if (typeof scene.tiles[coords].meshes != "undefined") {
+        if ( Object.keys(scene.tiles[coords].meshes).length != 0) {
+          if (typeof scene.tiles[coords].meshes.polygons != "undefined") {
+            if (typeof scene.tiles[coords].meshes.polygons.vertex_data != "undefined") {
+                callback(coords, offset);
+                return;
+            }
+          }
+        }
+      }
+    }
+    // if not ready, try again
+    waitForVerts(callback, coords, offset);
+  }, 1000);
 }
 
-for (t in mytiles) {
-  mt = mytiles[t];
-  coords = mt.x+"/"+mt.y+"/"+mt.z;
+function waitForWorkers(callback) {
+  setTimeout(function () {
+    if (typeof scene.workers != "undefined") {
+      if (typeof scene.workers[scene.next_worker] != "undefined") {
+        if (typeof scene.center_meters != "undefined") {
+          callback();
+          return;
+        }
+      }
+    }
+    // if not ready, try again
+    waitForWorkers(callback);
+  }, 1000);
+}
 
-  // calculate offset relative to the extents of the tile batch -
-  // the top-left tile is 0,0 - one tile over is 1,0 - one tile down is 0,1
-  offset = {x: mt.x - min.x, y: mt.y - min.y};
-  // multiply the offset by the local tile coordinate range for vertex position offset
-  offset.x *= 4096;
-  offset.y *= 4096;
-  console.log("coords", coords);
-  console.log("offset", offset);
+function waitForVBOs(callback) {
+  setTimeout(function () {
+    if (vbos.length == mytiles.length) {
+        callback();
+        return;
+    }
+    // if not ready, try again
+    waitForVBOs(callback);
+  }, 1000);
+}
+
+function loadTiles() {
+  var num = mytiles.length;
+  console.log("Loading", num, "tiles");
+  for (t in mytiles) {
+    scene._loadTile(mytiles[t]);
+  }
+  console.log("", num, "tiles loaded");
+}
+
+function processVerts(coords, o) {
+  // console.log("offset:", o);
+  var offset = o;
+  console.log("Processing tile", vbos.length + 1, "of", mytiles.length)
   verts = Array.prototype.slice.call(new Float32Array(scene.tiles[coords].meshes.polygons.vertex_data));
   length = verts.length / 9;
-  console.log("length:", length)
+  // console.log("length:", length)
 
   // apply offset to tile vertices
   for (v in verts) {
@@ -68,26 +436,81 @@ for (t in mytiles) {
 
   // make it one long string
   verts = verts.join('\n');
-  // make it into a downloadable blob
-  makelink(verts);
+  // add it to file list for zipping
+  vbos.push(verts);
 }
 
-// open a new window
-var opened = window.open("");
-opened.document.write("<html><body></body></html>");
-console.log("document");
-
-// write the download links to all the blobs in the new window
-for (e in elements) {
-  var a = opened.document.createElement('a');
-  a.href = elements[e];
-  a.download = 'filename.txt';
-  a.textContent = 'Download';
-
-  window.open(elements[e], 'Download');
-
-  opened.document.body.appendChild(a);
-  var b = opened.document.createElement('br');
-  opened.document.body.appendChild(b);
+function writeZip() {
+  // console.log("writeZip()")
+  var zip = new JSZip();
+  vbos = window.vbos;
+  console.log("Compressing "+vbos.length+" files...");
+  for (file in vbos) {
+    zip.file("file"+file+".vbo", vbos[file]);
+  }
+  if (JSZip.support.blob) {
+    try {
+      var blob = zip.generate({type:"blob"});
+      // uses FileSaver.js
+      saveAs(blob, "tiles.zip");
+    } catch(e) {
+      console.log("error:", e);
+    }
+  }
+  console.log("\"tiles.zip\" written - Done!");
 }
 
+// make a downloadable blob from a string and create a link to the blob
+function makelink(text) {
+  window.URL = window.webkitURL || window.URL;
+  var data = new Blob([text], {type: 'text/plain'});
+  var u = window.URL.createObjectURL(data)
+
+  elements.push(u);
+  console.log(u);
+
+  // open a new window
+  // var opened = window.open("");
+  // opened.document.write("<html><body></body></html>");
+  // console.log("document");
+
+  // write the download links to all the blobs in the new window
+  for (e in elements) {
+    var a = opened.document.createElement('a');
+    a.href = elements[e];
+    a.download = 'filename.txt';
+    a.textContent = 'Download';
+
+    window.open(elements[e], 'Download');
+
+    opened.document.body.appendChild(a);
+    var b = opened.document.createElement('br');
+    opened.document.body.appendChild(b);
+  }
+
+
+
+}
+
+for (t in mytiles) {
+  mt = mytiles[t];
+  coords = mt.x+"/"+mt.y+"/"+mt.z;
+
+  // calculate offset relative to the extents of the tile batch -
+  // the top-left tile is 0,0 - one tile over is 1,0 - one tile down is 0,1
+  var offset = {x: mt.x - min.x, y: mt.y - min.y};
+  // multiply the offset by the local tile coordinate range for vertex position offset
+  offset.x *= 4096;
+  offset.y *= 4096;
+  // console.log("offset1:", offset);
+
+  // wait for tile to load, then process it
+  waitForVerts(processVerts, coords, offset);
+}
+
+waitForWorkers(loadTiles);
+
+waitForVBOs(writeZip);
+
+
+}
