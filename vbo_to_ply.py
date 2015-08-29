@@ -2,7 +2,7 @@
 
 from __future__ import division # required for float results when dividing ints
 import os, sys
-from os import listdir
+from glob import glob
 from os.path import isfile, join
 from itertools import islice
 
@@ -11,10 +11,8 @@ INPUT=sys.argv[1]
 
 def convert(filename):
 
-	# todo: get stride from vertex buffer layout property
-	stride=9 # number of total lines for each vertex in VBO
-	indices=[0,1,2] # lines we want to keep
-	zoom=16 # current zoom level - sets x & y scale relative to z values
+	# todo: get zoom from filename
+	zoom=15# current zoom level - sets x & y scale relative to z values
 	maximum_range = 4096 # tile-space coordinate maximum
 
 	# convert from tile-space coords to meters, depending on zoom
@@ -25,42 +23,27 @@ def convert(filename):
 	lines = []
 
 	# get lines from input file
-	with open(filename) as f:
-		oldfile = f.readlines()
+	with open(filename, 'r') as f:
+		lines = [line.strip() for line in f]
 	f.close()
-
-	# pick only the lines we want using islice on an iterator
-	o = iter(oldfile)
-	while True:
-		line = list(islice(o, 3))
-		discard = list(islice(o, 6))
-		lines.append(line)
-		if not line:
-			break
 
 	vertex_count = 0
 	newlines = []
 
 	# add vertex definitions
 	for i, line in enumerate(lines):
-
 		index = 0
 
-		# strip line breaks and whitespace
-		newline = map(str.strip, line)
-
-		if len(newline) == 0: # skip the occasional empty line
+		if len(line) == 0: # skip the occasional empty line
 			break
 
-		# perform conversions
-		newline[0] = str(float(newline[0]) * conversion_factor)
-		newline[1] = str(float(newline[1]) * conversion_factor)
+		# perform conversions - still necessary?
+		# newline[0] = str(float(newline[0]) * conversion_factor)
+		# newline[1] = str(float(newline[1]) * conversion_factor)
 
-		newline = " ".join(newline) + "\n"
-
-		newlines.append(newline)
+		newlines.append(line+"\n")
 		vertex_count += 1
-
+		# print('vertex_count', vertex_count)
 		if (i % 1000 == 0): # print progress
 			sys.stdout.flush()
 			sys.stdout.write("\r"+(str(round(i / len(lines) * 100, 2))+"%"))
@@ -68,6 +51,7 @@ def convert(filename):
 	sys.stdout.flush()
 	sys.stdout.write("\r100%")
 	sys.stdout.flush()
+
 	# add simple face definitions - every three vertices make a face
 	face_count = int(vertex_count / 3)
 	for i in range(face_count):
@@ -122,13 +106,14 @@ def convert(filename):
 
 	line_prepend(OUTFILE, header)
 	print("Wrote "+OUTFILE)
-
 if os.path.isfile(INPUT):
-	sys.stdout.write("Converting 1 file")
+	sys.stdout.write("Converting 1 file\n")
 	convert(INPUT)
 elif os.path.isdir(INPUT):
-	files = [ f for f in listdir(INPUT) if isfile(join(INPUT,f)) ]
-	sys.stdout.write("Converting %s files"%(len(files)))
+	files = [ f for f in glob(INPUT+"*.vbo") if isfile(f) ]
+	sys.stdout.write("Converting %s files\n"%(len(files)))
 	for f in files:
-		convert(INPUT+"/"+f)
+		convert(f)
+else:
+	print('Unrecognized path')
 print("Done!")
