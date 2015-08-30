@@ -36,7 +36,6 @@ def convert(filename):
 
 		if len(line) == 0: # skip the occasional empty line
 			continue
-			# vbo-export is converting all my lines to 1k empty files
 
 		newlines.append(line+"\n")
 		vertex_count += 1
