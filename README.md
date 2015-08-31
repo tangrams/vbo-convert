@@ -1,4 +1,4 @@
-vbo-export
+vbo-convert
 ==========
 
 A few ways to convert [Tangram](https://github.com/tangram-map/tangram) VBOs to 3D file formats.
