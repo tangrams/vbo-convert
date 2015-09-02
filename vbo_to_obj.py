@@ -1,83 +1,82 @@
-from __future__ import division
-import sys 
-FILE=sys.argv[1]
-OUTFILE=sys.argv[2]
+from __future__ import division # required for float results when dividing ints
+import os, sys
+from glob import glob
+from os.path import isfile, join
+from itertools import islice
 
-# todo: get stride from vertex buffer layout property
-stride=6
-indices=[0,1,2]
-zoom=16
-maximum_range = 4096
+INPUT=sys.argv[1]
+# zoom=int(sys.argv[3])
 
-open(OUTFILE, 'w').close()
+def convert(filename):
 
-def tile_to_meters(i):
-	return 40075016.68557849 / pow(2, zoom)
+	# todo: get zoom from filename
+	zoom=15# current zoom level - sets x & y scale relative to z values
+	maximum_range = 4096 # tile-space coordinate maximum
 
-conversion_factor = tile_to_meters(zoom) / maximum_range
+	# convert from tile-space coords to meters, depending on zoom
+	def tile_to_meters(zoom):
+		return 40075016.68557849 / pow(2, zoom)
 
-def file_len(fname):
-	with open(fname) as f:
-		for i, l in enumerate(f):
-			pass
-	return i + 1
+	conversion_factor = tile_to_meters(zoom) / maximum_range
+	lines = []
 
-lines = file_len(FILE)
+	# get lines from input file
+	with open(filename, 'r') as f:
+		lines = [line.strip() for line in f]
+	f.close()
 
-loops = int(lines/stride)
+	vertex_count = 0 # 1-indexed
+	newlines = []
 
-for i in range(0,loops):
-	offset= i*stride
-	offset_indices = [j + offset for j in indices]
-	#print offset_indices
-	for k in offset_indices:
-		keep.append(k)
+	# add vertex definitions
+	for i, line in enumerate(lines):
+		index = 0
 
-newline = "v "
-index = 0
-vertex_count = 0
-newfile = open(OUTFILE, "w")
+		if len(line) == 0: # skip the occasional empty line
+			continue
 
-with open(FILE, "r") as file:
-	for i, line in enumerate(file):
-		if i in keep:
-			index += 1
-			newline = newline + line.rstrip(",\n") + " "
-			if index == 3:
-				tokens = newline.split(" ")
-				#print(tokens)
-				tokens[1] = str(float(tokens[1]) * conversion_factor)
-				tokens[2] = str(float(tokens[2]) * conversion_factor)
-				newline = " ".join(tokens) + "\n"
-				newfile.write(newline)
-				newline = "v "
-				index = 0
-				vertex_count += 1
-		if (i % 1000 == 0):
-			print(str(round(i / offset_indices[len(offset_indices)-1] * 100, 2))+"%")
-	face_count = vertex_count / 3
-	for i in range(int(face_count)):
-		j = i*3 + 1
+		newlines.append("v "+line+"\n")
+		vertex_count += 1
+		# print('vertex_count', vertex_count)
+		if (i % 1000 == 0): # print progress
+			sys.stdout.flush()
+			sys.stdout.write("\r"+(str(round(i / len(lines) * 100, 2))+"%"))
+
+	sys.stdout.flush()
+	sys.stdout.write("\r100%")
+	sys.stdout.flush()
+
+	# add simple face definitions - every three vertices make a face
+	face_count = int(vertex_count / 3)
+	for i in range(face_count):
+		j = i*3 + 1 # 1-indexed
 		newline = "f "+str(j)+" "+str(j+1)+" "+str(j+2)+"\n"
-		newfile.write(newline)
-newfile.close()
+		newlines.append(newline)
 
+	name, extension = os.path.splitext(filename)
+	OUTFILE = name + ".obj"
+	open(OUTFILE, 'w').close() # clear existing OUTFILE, if any
+	newfile = open(OUTFILE, "w")
+	for line in newlines:
+		newfile.write("%s" % line)
+	newfile.close()
 
-def line_prepend(filename,line):
-    with open(filename,'r+') as f:
-        content = f.read()
-        f.seek(0,0)
-        f.write(line.rstrip('\r\n') + '\n' + content)
+	def line_prepend(filename,line):
+	    with open(filename,'r+') as f:
+	        content = f.read()
+	        f.seek(0,0)
+	        f.write(line.rstrip('\r\n') + '\n' + content)
 
-
-header = '''ply
-format ascii 1.0
-element vertex '''+str(vertex_count)+'''
-property float x
-property float y
-property float z
-element face '''+str(face_count)+'''
-property list uchar int vertex_index
-end_header
-'''
-# line_prepend(OUTFILE, header)
+	# line_prepend(OUTFILE, header)
+	print("Wrote "+OUTFILE)
+if os.path.isfile(INPUT):
+	sys.stdout.write("Converting 1 file\n")
+	convert(INPUT)
+elif os.path.isdir(INPUT):
+	files = [ f for f in glob(INPUT+"*.vbo") if isfile(f) ]
+	sys.stdout.write("Converting %s files\n"%(len(files)))
+	for f in files:
+		convert(f)
+else:
+	print('Unrecognized path')
+print("Done!")
