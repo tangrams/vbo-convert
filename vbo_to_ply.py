@@ -60,7 +60,7 @@ def convert(filename):
 	open(OUTFILE, 'w').close() # clear existing OUTFILE, if any
 	newfile = open(OUTFILE, "w")
 	for line in newlines:
-	  newfile.write("%s" % line)
+		newfile.write("%s" % line)
 	newfile.close()
 
 	def line_prepend(filename,line):
@@ -78,8 +78,7 @@ def convert(filename):
 	property float z
 	element face '''+str(face_count)+'''
 	property list uchar int vertex_indices
-	end_header
-	'''
+	end_header'''
 
 	##
 	## a header with vertex colors
