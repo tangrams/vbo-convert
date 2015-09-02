@@ -1,5 +1,3 @@
-#new
-
 from __future__ import division # required for float results when dividing ints
 import os, sys
 from glob import glob
